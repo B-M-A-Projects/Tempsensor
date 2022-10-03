@@ -14,6 +14,7 @@ for point in points:
     print(temp_yesterday)
         
 temp = sensor.get_temperature()
+temp = round(temp,1)
     
 temp_data = [
     {
