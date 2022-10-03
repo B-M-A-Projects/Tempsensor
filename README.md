@@ -1,1 +1,1 @@
-Project to get temp data with a raspberry pi
+This is a small temperature project to measure outdoor temperature with a DS18B20 temperature sensor connected to a Raspberry Pi. Both tempsensor.py and tempsensor_day_stats.py runs as a cron job as often as you like. Data is saved into an influx database running on the Pi and Grafana is used to present the temperature.
