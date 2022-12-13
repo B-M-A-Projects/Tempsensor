@@ -2,7 +2,7 @@ from influxdb import InfluxDBClient
 
 tempdata = 0
 datapoints = 0
-temp_max = 0
+temp_max = -40
 temp_min = 40
 
 client = InfluxDBClient('localhost', 8086, 'tempmonitor', 'J3kVTBEfKezsM9yQ3NGF', 'temperature')
