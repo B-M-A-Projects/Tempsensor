@@ -1,34 +1,32 @@
 from w1thermsensor import W1ThermSensor
-from influxdb import InfluxDBClient
+import influxdb_client
+from influxdb_client.client.write_api import SYNCHRONOUS
+
+# store data in influx database
+def StoreInDatabase(p):
+    influxdb_bucket = "tempsensor"
+    influxdb_org = "BMA"
+    influxdb_token = "ncE41R29bvQLeUNHjNXs6-GOM6lctlP93ymZXJMl5IqUHxkcts45E228jwESCm2FC_nQQWBbJxywGYOdOJj5rw=="
+    influxdb_url = "http://192.168.50.239:8086"
+
+    client = influxdb_client.InfluxDBClient(url=influxdb_url, token=influxdb_token, org=influxdb_org)
+
+    write_api = client.write_api(write_options = SYNCHRONOUS)
+
+    write_api.write(bucket=influxdb_bucket, org=influxdb_org, record=p)
+
+    client.close()
+
+# ***************************************** MAIN ********************************************
 
 sensor = W1ThermSensor()
 
-client = InfluxDBClient('localhost', 8086, 'tempmonitor', 'J3kVTBEfKezsM9yQ3NGF', 'temperature')
-
-query = 'select temp from temperature where time > now() -1440m and time < now() -1435m'
-results = client.query(query)
-temp_yesterday = 0
-points = results.get_points()
-for point in points:
-    temp_yesterday = point['temp']
-    print(temp_yesterday)
-        
 temp = sensor.get_temperature()
 temp = round(temp,1)
-    
-temp_data = [
-    {
-        "measurement" : "temperature",
-        "tags" : {
-            "location": "back_garden"
-        },
-        "fields" : {
-            "temp": float(temp),
-            "temp_yesterday": float(temp_yesterday)
-        }
-    }
-]
-print(temp_data)
 
-client.write_points(temp_data)
-client.close()
+print("Temperature: {}".format(temp))
+
+temp_data = influxdb_client.Point("backside")\
+    .field("temp", float(temp))
+
+StoreInDatabase(temp_data)
