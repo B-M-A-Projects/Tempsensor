@@ -1,6 +1,7 @@
 .aider*
 # Sensitive credentials - DO NOT COMMIT
 tempsensor_tokens.py
+config.py
 
 # Python
 __pycache__/

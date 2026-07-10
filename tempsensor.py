@@ -1,11 +1,7 @@
 from w1thermsensor import W1ThermSensor
 import influxdb_client
 from influxdb_client.client.write_api import SYNCHRONOUS
-
-influxdb_bucket = "xxx"
-influxdb_org = "xxx"
-influxdb_token = "xxx-xxx"
-influxdb_url = "xxxs"
+from config import influxdb_bucket, influxdb_org, influxdb_token, influxdb_url
 
 # Store data in influx database
 def StoreInDatabase(p):
